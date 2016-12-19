@@ -42,7 +42,7 @@ def add_rate(request):
         form = RateForm(request.POST)
         if form.is_valid():
             rate = Rate(name=form.cleaned_data['name'], value=form.cleaned_data['value'],
-                              days=parser.parse(form.cleaned_data['days']), user=request.user)
+                              days=form.cleaned_data['days'], user=request.user)
             rate.calculate_daily_value()
             rate.save()
     return redirect('/')
