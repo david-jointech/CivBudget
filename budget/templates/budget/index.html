@@ -1,0 +1,130 @@
+{% load bootstrap3 %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<div class="page-header">
+    <div class="container">
+        <form class="form-inline" action="{% url 'budget:logout' %}"
+              method="post">
+            <h1>Civ inspired Budget
+                <small>Daily turns for a better overview</small>
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger pull-right">
+                                    <span class="glyphicon glyphicon-off"
+                                          aria-hidden="true"></span>
+                </button>
+            </h1>
+        </form>
+    </div>
+</div>
+
+<div class="container">
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <th>Booking</th>
+            <th>Date</th>
+            <th>Value (Total: {{ booking_total }}€)</th>
+            <th><span class="glyphicon glyphicon-menu-hamburger"
+                      aria-hidden="true"></span></th>
+            </thead>
+            {% for booking in booking_list %}
+                {% if booking.value < 0 %}
+                    <tr class="danger">
+                        {% else %}
+                    <tr class="success">
+                {% endif %}
+            <form class="form-inline" action="{% url 'budget:delete_booking' booking.id %}"
+                  method="post">
+                {% csrf_token %}
+                <td>{{ booking.name }}</td>
+                <td>{{ booking.date | date:"d.m.Y" }}</td>
+                <td>{{ booking.value }}€</td>
+                <td>
+                    <button type="submit" class="btn btn-danger">
+                                    <span class="glyphicon glyphicon-trash"
+                                          aria-hidden="true"></span>
+                    </button>
+                </td>
+            </form>
+            </tr>
+            {% endfor %}
+            <tr>
+                <form class="form-inline" action="{% url 'budget:add_booking' %}" method="post">
+                    {% csrf_token %}
+                    <td><input name="name" type="text" class="form-control" placeholder="New Booking" required/></td>
+                    <td><input name="date" type="text" class="form-control" value="{{ today | date:"d.m.Y" }}" required/></td>
+                    <td>
+                        <div class="input-group">
+                            <input name="value" type="number" class="form-control" placeholder="Value" step="0.01" required/>
+                            <div class="input-group-addon">€</div>
+                        </div>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-primary">
+                                    <span class="glyphicon glyphicon-plus"
+                                          aria-hidden="true"></span>
+                        </button>
+                    </td>
+                </form>
+            </tr>
+        </table>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <th>Rate</th>
+            <th>Value</th>
+            <th>Days</th>
+            <th>Daily Value (Total: {{ magic_number }}€)</th>
+            <th><span class="glyphicon glyphicon-menu-hamburger"
+                      aria-hidden="true"></span></th>
+            </thead>
+            {% for rate in rate_list %}
+                {% if rate.daily_value < 0 %}
+                    <tr class="danger">
+                        {% else %}
+                    <tr class="success">
+                {% endif %}
+            <form class="form-inline" action="{% url 'budget:delete_rate' rate.id %}" method="post">
+                {% csrf_token %}
+                <td>{{ rate.name }}</td>
+                <td>{{ rate.value }}€</td>
+                <td>{{ rate.days }}</td>
+                <td>{{ rate.daily_value }}€</td>
+                <td>
+                    <button type="submit" class="btn btn-danger">
+                                    <span class="glyphicon glyphicon-trash"
+                                          aria-hidden="true"></span>
+                    </button>
+                </td>
+            </form>
+            </tr>
+            {% endfor %}
+            <tr>
+
+                <form class="form-inline" action="{% url 'budget:add_rate' %}" method="post">
+                    {% csrf_token %}
+                    <td><input name="name" type="text" class="form-control" placeholder="New Rate" required/></td>
+                    <td>
+                        <div class="input-group">
+                            <input name="value" type="number" class="form-control" placeholder="Value" step="0.01" required/>
+                            <div class="input-group-addon">€</div>
+                        </div>
+                    </td>
+                    <td><input name="days" type="number" class="form-control" placeholder="Days" required/></td>
+                    <td>Will be calculated</td>
+                    <td>
+                        <button type="submit" class="btn btn-primary">
+                                    <span class="glyphicon glyphicon-plus"
+                                          aria-hidden="true"></span>
+                        </button>
+                    </td>
+                </form>
+            </tr>
+        </table>
+    </div>
+
+</div>

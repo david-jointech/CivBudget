@@ -1,0 +1,24 @@
+{% load bootstrap3 %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<div class="page-header">
+    <h1>Civ inspired Budget
+        <small>Daily turns for a better overview</small>
+    </h1>
+</div>
+
+<div class="container">
+
+    <form method="post" class="form-signin">
+        {% csrf_token %}
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="username" class="sr-only">Email address</label>
+        <input name="username" class="form-control" placeholder="Username" required="" autofocus="" type="text">
+        <label for="password" class="sr-only">Password</label>
+        <input name="password" class="form-control" placeholder="Password" required="" type="password">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+
+</div>
