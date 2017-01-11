@@ -10,7 +10,7 @@ import datetime
 from datetime import timedelta
 from django.db.models import Sum
 from graphos.sources.model import SimpleDataSource
-from graphos.renderers.morris import LineChart
+from graphos.renderers.morris import BarChart
 from collections import Counter
 
 
@@ -32,6 +32,7 @@ def index(request):
         date__range=[monday_of_this_week, now]).aggregate(balance_of_week=Sum('value'))
     bookings_of_month = Booking.objects.filter(user=user).order_by('value').filter(
         date__range=[first_day_of_month, now]).aggregate(balance_of_month=Sum('value'))
+    bookings_forever =  Booking.objects.filter(user=user).aggregate(balance_forever=Sum('value'))
     bookings = Booking.objects.filter(user=user).order_by('date')
     start_date = bookings[0].date
     end_date = today
@@ -42,7 +43,7 @@ def index(request):
             balance_up_to_day=Sum('value'))['balance_up_to_day']
         aggregated_by_day.append([single_date, bookings_up_to_day])
     data_source = SimpleDataSource(aggregated_by_day)
-    chart = LineChart(data_source)
+    chart = BarChart(data_source)
     context = {
         'bookings_of_day': bookings_of_day,
         'rate_list': rate_list,
@@ -51,6 +52,7 @@ def index(request):
         'today': timezone.now(),
         'balance_of_week': bookings_of_week['balance_of_week'],
         'balance_of_month': bookings_of_month['balance_of_month'],
+        'balance_forever': bookings_forever['balance_forever'],
         'chart': chart,
 
     }

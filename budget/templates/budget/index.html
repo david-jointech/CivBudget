@@ -69,21 +69,13 @@
 
 <div class="container">
 
-
-    <p>
-        Balance of this Week: {{ balance_of_week }}€
-    </p>
-    <p>
-        Balance of this Month: {{ balance_of_month }}€
-    </p>
     <div class="table-responsive" style="overflow: visible">
         <table class="table table-bordered table-striped">
             <thead>
             <th>Booking</th>
             <th>Date</th>
             <th>Value (Total: {{ booking_total }}€)</th>
-            <th><span class="glyphicon glyphicon-menu-hamburger"
-                      aria-hidden="true"></span></th>
+            <th></th>
             </thead>
             {% for booking in bookings_of_day %}
                 {% if booking.value < 0 %}
@@ -112,7 +104,7 @@
                             <div class="form-group">
                                 <div class='input-group date' id='datetimepicker1'>
                                     <input name="date" type='text' class="form-control"
-                                           value="{{ today | date:"d.m.Y" }}" required/>
+                                           value="{{ today | date:"dd.mm.YYYY" }}" required/>
                                     <span class=" input-group-addon">
                                             <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -121,7 +113,8 @@
                             <script type="text/javascript">
                                 $(function () {
                                     $('#datetimepicker1').datetimepicker({
-                                        locale: 'de'
+                                        locale: 'de',
+                                        format: 'DD.MM.YYYY'
                                     });
                                 });
                             </script>
@@ -167,8 +160,7 @@
                         <th>Value</th>
                         <th>Days</th>
                         <th>Daily Value (Total: {{ magic_number }}€)</th>
-                        <th><span class="glyphicon glyphicon-menu-hamburger"
-                                  aria-hidden="true"></span></th>
+                        <th></th>
                         </thead>
 
                         {% for rate in rate_list %}
@@ -217,6 +209,27 @@
                         </tr>
                     </table>
                 </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panel-group" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab">
+                Balances
+            </div>
+
+            <div class="panel panel-default" role="tabpanel" style="padding-left: 10px">
+                <h4>
+                    Balance of this Week: {{ balance_of_week }}€
+                </h4>
+                <h4>
+                    Balance of this Month: {{ balance_of_month }}€
+                </h4>
+                <h4>
+                    Balance Forever: {{ balance_forever }}
+                </h4>
             </div>
         </div>
     </div>
