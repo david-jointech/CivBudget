@@ -10,7 +10,7 @@ import datetime
 from datetime import timedelta
 from django.db.models import Sum
 from graphos.sources.model import SimpleDataSource
-from graphos.renderers.morris import BarChart
+from graphos.renderers.morris import LineChart
 from collections import Counter
 
 
@@ -42,7 +42,7 @@ def index(request):
             balance_up_to_day=Sum('value'))['balance_up_to_day']
         aggregated_by_day.append([single_date, bookings_up_to_day])
     data_source = SimpleDataSource(aggregated_by_day)
-    chart = BarChart(data_source)
+    chart = LineChart(data_source)
     context = {
         'bookings_of_day': bookings_of_day,
         'rate_list': rate_list,
