@@ -1,0 +1,1 @@
+0 * * * * /usr/bin/python /usr/share/webapps/CivBudget/manage.py book_magic_numbers
