@@ -1,7 +1,7 @@
 FROM eorlbruder/gunicorn
 MAINTAINER  David Magnus Henriques <eorlbruder@magnus-henriques.de>
 
-RUN mkdir /usr/share/webapps/CivBudget
+RUN mkdir -p /usr/share/webapps/CivBudget
 ADD assets/* /usr/share/webapps/CivBudget/
 
 WORKDIR /usr/share/webapps/CivBudget
