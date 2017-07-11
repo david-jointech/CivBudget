@@ -1,4 +1,4 @@
-FROM eorlbruder/gunicorn
+FROM registry.eorlbruder.de/gunicorn
 MAINTAINER  David Magnus Henriques <eorlbruder@magnus-henriques.de>
 
 RUN mkdir -p /usr/share/webapps/CivBudget
