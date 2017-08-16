@@ -1,0 +1,26 @@
+pipeline:
+  docker-civ_budget:
+    image: plugins/docker:1.12
+    repo: registry.eorlbruder.de/civ_budget
+    registry: registry.eorlbruder.de
+    tags:
+      - latest
+    dockerfile: ./Dockerfile
+    context: .
+    secrets: [docker_username, docker_password]
+  notify:
+    image: drillster/drone-email
+    when:
+      branch: master
+      status: [failure, changed]
+    secrets:
+      - source: email_host
+        target: email_host
+      - source: email_password
+        target: email_password
+      - source: email
+        target: plugin_from
+      - source: email
+        target: email_username
+      - source: email
+        target: email_recipients
