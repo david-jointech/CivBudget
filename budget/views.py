@@ -39,11 +39,11 @@ def index(request):
     start_date = bookings[0].date
     end_date = today
     aggregated_by_day = [['Date', 'Value']]
-    for single_date in daterange(start_date, end_date):
-        bookings_up_to_day = Booking.objects.filter(user=user).filter(
-            date__range=[start_date, single_date]).aggregate(
-            balance_up_to_day=Sum('value'))['balance_up_to_day']
-        aggregated_by_day.append([single_date, bookings_up_to_day])
+    #for single_date in daterange(start_date, end_date):
+    #    bookings_up_to_day = Booking.objects.filter(user=user).filter(
+    #        date__range=[start_date, single_date]).aggregate(
+    #        balance_up_to_day=Sum('value'))['balance_up_to_day']
+    #    aggregated_by_day.append([single_date, bookings_up_to_day])
     data_source = SimpleDataSource(aggregated_by_day)
     chart = BarChart(data_source)
     context = {
