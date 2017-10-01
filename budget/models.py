@@ -33,6 +33,7 @@ class BookingTotal(models.Model):
     type = models.IntegerField()
     value = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateTimeField
+    user = models.ForeignKey(User)
 
 
 class BookingForm(Form):
