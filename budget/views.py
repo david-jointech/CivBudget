@@ -29,10 +29,10 @@ def index(request):
     rate_list = Rate.objects.filter(user=user).order_by('daily_value')
     # TODO refactor this mess!
     bookings_of_day = Booking.objects.filter(user=user).order_by('value').filter(date__range=[today, now])
-    bookings_of_week = Booking.objects.filter(user=user).order_by('value').filter(
-        date__range=[monday_of_this_week, now]).aggregate(balance_of_week=Sum('value'))
-    bookings_of_month = Booking.objects.filter(user=user).order_by('value').filter(
-        date__range=[first_day_of_month, now]).aggregate(balance_of_month=Sum('value'))
+    bookings_of_week = [] #Booking.objects.filter(user=user).order_by('value').filter(
+        # date__range=[monday_of_this_week, now]).aggregate(balance_of_week=Sum('value'))
+    bookings_of_month = [] #Booking.objects.filter(user=user).order_by('value').filter(
+        # date__range=[first_day_of_month, now]).aggregate(balance_of_month=Sum('value'))
     bookings_forever =  Booking.objects.filter(user=user).aggregate(balance_forever=Sum('value'))
     bookings = Booking.objects.filter(user=user).order_by('date')
     start_date = bookings[0].date
