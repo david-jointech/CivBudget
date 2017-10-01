@@ -21,7 +21,6 @@ def daterange(start_date, end_date):
 # TODO add BookingTotals-functonality and remove old stuff
 @login_required
 def index(request):
-    print("Starting stuff\n")
     user = request.user
     now = timezone.now()
     today = now.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -30,22 +29,22 @@ def index(request):
     rate_list = Rate.objects.filter(user=user).order_by('daily_value')
     # TODO refactor this mess!
     bookings_of_day = Booking.objects.filter(user=user).order_by('value').filter(date__range=[today, now])
-    bookings_of_week = [] #Booking.objects.filter(user=user).order_by('value').filter(
-        # date__range=[monday_of_this_week, now]).aggregate(balance_of_week=Sum('value'))
-    bookings_of_month = [] #Booking.objects.filter(user=user).order_by('value').filter(
-        # date__range=[first_day_of_month, now]).aggregate(balance_of_month=Sum('value'))
+    bookings_of_week = Booking.objects.filter(user=user).order_by('value').filter(
+         date__range=[monday_of_this_week, now]).aggregate(balance_of_week=Sum('value'))
+    bookings_of_month = Booking.objects.filter(user=user).order_by('value').filter(
+        date__range=[first_day_of_month, now]).aggregate(balance_of_month=Sum('value'))
     bookings_forever =  Booking.objects.filter(user=user).aggregate(balance_forever=Sum('value'))
     bookings = Booking.objects.filter(user=user).order_by('date')
     start_date = bookings[0].date
     end_date = today
-    aggregated_by_day = [['Date', 'Value']]
+    #aggregated_by_day = [['Date', 'Value']]
     #for single_date in daterange(start_date, end_date):
     #    bookings_up_to_day = Booking.objects.filter(user=user).filter(
     #        date__range=[start_date, single_date]).aggregate(
     #        balance_up_to_day=Sum('value'))['balance_up_to_day']
     #    aggregated_by_day.append([single_date, bookings_up_to_day])
-    data_source = SimpleDataSource(aggregated_by_day)
-    chart = BarChart(data_source)
+    #data_source = SimpleDataSource(aggregated_by_day)
+    #chart = BarChart(data_source)
     context = {
         'bookings_of_day': bookings_of_day,
         'rate_list': rate_list,
@@ -55,10 +54,9 @@ def index(request):
         'balance_of_week': bookings_of_week['balance_of_week'],
         'balance_of_month': bookings_of_month['balance_of_month'],
         'balance_forever': bookings_forever['balance_forever'],
-        'chart': chart,
+     #   'chart': chart,
 
     }
-    print("Returning stuff\n")
     return render(request, 'budget/index.html', context)
 
 
