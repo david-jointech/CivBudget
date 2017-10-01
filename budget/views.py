@@ -18,7 +18,7 @@ def daterange(start_date, end_date):
     for n in range(int((end_date - start_date).days)):
         yield start_date + timedelta(n)
 
-
+# TODO add BookingTotals-functonality and remove old stuff
 @login_required
 def index(request):
     user = request.user
@@ -27,6 +27,7 @@ def index(request):
     first_day_of_month = today.replace(day=1)
     monday_of_this_week = today - timedelta(days=today.weekday())
     rate_list = Rate.objects.filter(user=user).order_by('daily_value')
+    # TODO refactor this mess!
     bookings_of_day = Booking.objects.filter(user=user).order_by('value').filter(date__range=[today, now])
     bookings_of_week = Booking.objects.filter(user=user).order_by('value').filter(
         date__range=[monday_of_this_week, now]).aggregate(balance_of_week=Sum('value'))
