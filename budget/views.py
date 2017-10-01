@@ -21,6 +21,7 @@ def daterange(start_date, end_date):
 # TODO add BookingTotals-functonality and remove old stuff
 @login_required
 def index(request):
+    print("Starting stuff\n")
     user = request.user
     now = timezone.now()
     today = now.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -57,6 +58,7 @@ def index(request):
         'chart': chart,
 
     }
+    print("Returning stuff\n")
     return render(request, 'budget/index.html', context)
 
 
